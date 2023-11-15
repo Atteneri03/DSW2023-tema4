@@ -20,8 +20,15 @@ $stmt_delete->bind_param("i",$id);
 $link->autocommit(FALSE);
 $stmt_query->execute();
 
+$results = $stmt_query->get_result();
+$stmt_query->close();
 
-while($stmt_query->fetch()){
+
+while($client = $results->fetch_object()){
+  $id = $client->id;
+  $first_name = $client->first_name;
+  $cars = $client->cars;
+
   //Comprobar si cars == 0 para anular la transacción.
   if($cars==0){
     echo "Se aborta poque el cliente con id=$id tiene 0 coches";
